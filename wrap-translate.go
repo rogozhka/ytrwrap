@@ -13,20 +13,41 @@ const (
 	HTML      = "html"
 )
 
-func (p *tr) Translate(text string, to, from LC, format TextFormat) (string, *apiError) {
+type TranslateOpt struct {
+	//
+	// OutputFormat affects result formatting
+	//
+	OutputFormat TextFormat
 
-	optFormat := "plain"
+	//
+	// From if omitted, detection is used
+	//
+	From LC
+}
 
-	switch format {
+//
+// Translate makes the translation from LC to LC
+// w/ output format plainText by default or HTML
+// from arg is optional
+//
+func (p *tr) Translate(text string, to LC, opt *TranslateOpt) (string, *apiError) {
+
+	if nil == opt {
+		opt = &TranslateOpt{}
+	}
+
+	switch opt.OutputFormat {
 	case PlainText:
 		fallthrough
 	case HTML:
-		optFormat = string(format)
+		fallthrough
+	default:
+		opt.OutputFormat = PlainText
 	}
 
 	strLang := ""
-	if len(from) > 0 {
-		strLang = fmt.Sprintf("%s-%s", from, to)
+	if len(opt.From) > 0 {
+		strLang = fmt.Sprintf("%s-%s", opt.From, to)
 	} else {
 		strLang = string(to)
 	}
@@ -35,7 +56,7 @@ func (p *tr) Translate(text string, to, from LC, format TextFormat) (string, *ap
 		url.Values{
 			"key":    {p.key},
 			"text":   {text},
-			"format": {optFormat},
+			"format": {string(opt.OutputFormat)},
 			"lang":   {strLang},
 		})
 

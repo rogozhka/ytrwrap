@@ -9,7 +9,7 @@ import (
 func TestTr_Translate(t *testing.T) {
 
 	tr := createTestClientFromEnv()
-	res, err := tr.Translate("the pony eat grass", RU, "", "")
+	res, err := tr.Translate("the pony eat grass", RU, nil)
 	assert.Nil(t, err, "err")
 	assert.Equal(t, "пони едят траву", res, "lc")
 }
@@ -20,7 +20,7 @@ func TestTr_Translate2(t *testing.T) {
 
 	trash := "asdsfkjshflkjsadf--"
 
-	res, err := tr.Translate(trash, RU, "", "")
+	res, err := tr.Translate(trash, RU, nil)
 	assert.Nil(t, err, "err")
 	assert.Equal(t, trash, res, "lc")
 }
