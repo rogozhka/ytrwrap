@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+//
+// Detect used to detect text language
+// hints are useful to suggest supposed LC
+//
 func (p *tr) Detect(text string, hints []LC) (LC, *apiError) {
 
 	arr := []string{}
