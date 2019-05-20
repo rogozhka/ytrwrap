@@ -15,12 +15,12 @@ const (
 	//
 	// PlainText - default formatting mode
 	//
-	PlainText = "plain"
+	PlainText TextFormat = "plain"
 
 	//
 	// HTML means translation will preserve source tags
 	//
-	HTML = "html"
+	HTML TextFormat = "html"
 )
 
 //
