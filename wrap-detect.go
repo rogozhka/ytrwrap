@@ -29,7 +29,7 @@ func (p *tr) Detect(text string, hints []LC) (LC, *apiError) {
 
 	type resp struct {
 		GenericResponse
-		Lang LC `json:lang`
+		Lang LC `json:"lang"`
 	}
 
 	dataResp := resp{}

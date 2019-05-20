@@ -6,13 +6,26 @@ import (
 	"net/url"
 )
 
+//
+// TextFormat - formatting mode
+//
 type TextFormat string
 
 const (
+	//
+	// PlainText - default formatting mode
+	//
 	PlainText = "plain"
-	HTML      = "html"
+
+	//
+	// HTML means translation will preserve source tags
+	//
+	HTML = "html"
 )
 
+//
+// TranslateOpt - optional params for Translate method
+//
 type TranslateOpt struct {
 	//
 	// OutputFormat affects result formatting
@@ -62,7 +75,7 @@ func (p *tr) Translate(text string, to LC, opt *TranslateOpt) (string, *apiError
 
 	type resp struct {
 		GenericResponse
-		LangDir LD       `json:lang`
+		LangDir LD       `json:"lang"`
 		Text    []string `json:"text"`
 	}
 

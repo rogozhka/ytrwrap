@@ -23,7 +23,7 @@ func (p *tr) Langs(uiLang LC) (map[LC]string, *apiError) {
 
 	type resp struct {
 		GenericResponse
-		Langs map[LC]string `json: langs`
+		Langs map[LC]string `json:"langs"`
 	}
 
 	dataResp := resp{
