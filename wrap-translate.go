@@ -62,7 +62,7 @@ func (p *tr) Translate(text string, to LC, opt *TranslateOpt) (string, *apiError
 
 	type resp struct {
 		GenericResponse
-		LangDir LD       `json:lang`
+		LangDir LD       `json:"lang"`
 		Text    []string `json:"text"`
 	}
 
