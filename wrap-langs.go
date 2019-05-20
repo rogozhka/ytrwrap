@@ -6,15 +6,16 @@ import (
 	"net/url"
 )
 
-type Langs map[LC]string
-
-func (p *tr) Langs(uiLang string) (Langs, *apiError) {
+//
+// Langs enumerates all the supported LC
+//
+func (p *tr) Langs(uiLang string) (map[LC]string, *apiError) {
 
 	url := formatURLGetLangs(p.apiURL, url.Values{"key": {p.key}, "ui": {uiLang}})
 
 	type resp struct {
 		GenericResponse
-		Langs Langs `json: langs`
+		Langs map[LC]string `json: langs`
 	}
 
 	dataResp := resp{
