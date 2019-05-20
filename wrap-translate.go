@@ -6,13 +6,26 @@ import (
 	"net/url"
 )
 
+//
+// TextFormat - formatting mode
+//
 type TextFormat string
 
 const (
+	//
+	// PlainText - default formatting mode
+	//
 	PlainText = "plain"
-	HTML      = "html"
+
+	//
+	// HTML means translation will preserve source tags
+	//
+	HTML = "html"
 )
 
+//
+// TranslateOpt - optional params for Translate method
+//
 type TranslateOpt struct {
 	//
 	// OutputFormat affects result formatting

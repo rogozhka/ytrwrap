@@ -2,6 +2,9 @@ package ytrwrap
 
 import "fmt"
 
+//
+// APICode represents HTTP code w/ special meaning
+//
 type APICode int
 
 const (
@@ -15,6 +18,9 @@ const (
 	WRAPPER_INTERNAL_ERROR  = APICode(500)
 )
 
+//
+// GenericResponse is common part of all the service responses
+//
 type GenericResponse struct {
 	Description string  `json:"message,omitempty"`
 	ErrorCode   APICode `json:"code,omitempty"`
@@ -42,11 +48,17 @@ func (p *apiError) Error() string {
 	return fmt.Sprintf("%v | %v", p.ErrorCode, p.Description)
 }
 
+//
+// Code returns APICode from returned error
+//
 func Code(raw interface{}) APICode {
 	err := raw.(*apiError)
 	return err.ErrorCode
 }
 
+//
+// Description returns plain descr from returned error
+//
 func Description(raw interface{}) string {
 	err := raw.(*apiError)
 	return err.Description
