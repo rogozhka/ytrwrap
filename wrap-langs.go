@@ -7,11 +7,19 @@ import (
 )
 
 //
-// Langs enumerates all the supported LC
+// Languages enumerates all the supported LC
 //
-func (p *tr) Langs(uiLang string) (map[LC]string, *apiError) {
 
-	url := formatURLGetLangs(p.apiURL, url.Values{"key": {p.key}, "ui": {uiLang}})
+func (p *tr) Languages(uiLang LC) (map[LC]string, *apiError) {
+	return p.Langs(uiLang)
+}
+
+//
+// Langs is shortcut to Languages used to list all the supported LC
+//
+func (p *tr) Langs(uiLang LC) (map[LC]string, *apiError) {
+
+	url := formatURLGetLangs(p.apiURL, url.Values{"key": {p.key}, "ui": {string(uiLang)}})
 
 	type resp struct {
 		GenericResponse
