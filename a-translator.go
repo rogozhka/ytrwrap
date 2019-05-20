@@ -35,6 +35,7 @@ func NewYandexTranslate(key string) *tr {
 //
 // NewYandexTranslateWithClient service client
 // w/ associated key and optional HTTP client
+// in case of using proxy or different timeouts
 //
 func NewYandexTranslateWithClient(key string, client *http.Client) *tr {
 	p := &tr{
@@ -52,6 +53,10 @@ func NewYandexTranslateWithClient(key string, client *http.Client) *tr {
 	return p
 }
 
+//
+// NewYandexTranslateWithClientAndURL is a special ctor allows to specify
+// custom client and apiURL
+//
 func NewYandexTranslateWithClientAndURL(key string, client *http.Client, apiURL string) *tr {
 
 	p := NewYandexTranslateWithClient(key, client)
