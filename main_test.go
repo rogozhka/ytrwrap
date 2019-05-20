@@ -1,28 +1,26 @@
 package ytrwrap
 
 import (
-    "fmt"
-    "net/http"
-    "os"
+	"fmt"
+	"net/http"
+	"os"
 )
 
 func getKeyEnv() string {
-    return requireEnv("YTR_KEY")
+	return requireEnv("YTR_KEY")
 }
 
 func requireEnv(name string) string {
-    v := os.Getenv(name)
-    if len(v) < 1 {
-        panic(fmt.Sprintf("env not set | %s", name))
-    }
+	v := os.Getenv(name)
+	if len(v) < 1 {
+		panic(fmt.Sprintf("env not set | %s", name))
+	}
 
-    return v
+	return v
 }
-
 
 func createTestClientFromEnv() *tr {
-    return NewYandexTranslateWithClient(getKeyEnv(), &http.Client{
-        Timeout: DefaultClientTimeout,
-    })
+	return NewYandexTranslateWithClient(getKeyEnv(), &http.Client{
+		Timeout: DefaultClientTimeout,
+	})
 }
-
