@@ -6,7 +6,7 @@ type APICode int
 
 const (
 	OK                      = APICode(200)
-	KEY_WRONG               = APICode(401)
+	KEY_WRONG               = APICode(403)
 	KEY_BLOCKED             = APICode(402)
 	LIMIT_DAILY_EXCEEDED    = APICode(404)
 	LIMIT_TEXTSIZE_EXCEEDED = APICode(413)
