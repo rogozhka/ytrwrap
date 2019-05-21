@@ -1,6 +1,8 @@
 package ytrwrap
 
 import (
+	"fmt"
+	"net/http"
 	"net/url"
 	"testing"
 
@@ -125,4 +127,93 @@ func TestURLTranslatePair(t *testing.T) {
 	assert.Equal(t, txt, values.Get("text"), "url")
 	assert.Equal(t, string(fromLC)+"-"+string(toLC), values.Get("lang"), "url")
 	assert.Equal(t, "plain", values.Get("format"), "url")
+}
+
+func TestTrTranslateErrUnmarshal(t *testing.T) {
+	dummyKey := "trnsl.there.is.no.key"
+	text := "no-text"
+	lcTO := EN
+
+	client := newVoidClient()
+	tr := NewYandexTranslateWithClient(dummyKey, client)
+	_, apierr := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, apierr, "detect err")
+
+	client.Set(client.LastURL(), []byte("broken-data"), http.StatusOK, nil)
+
+	_, err := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, err, "err")
+	assert.Equal(t, WRAPPER_INTERNAL_ERROR, err.ErrorCode, "exp err")
+	assert.Equal(t, "500 | Unmarshal | invalid character 'b' looking for beginning of value", err.Error(), "exp err")
+}
+
+func TestTrTranslateErrGET(t *testing.T) {
+	dummyKey := "trnsl.there.is.no.key"
+	text := "no-text"
+
+	lcTO := EN
+
+	client := newVoidClient()
+	tr := NewYandexTranslateWithClient(dummyKey, client)
+	_, apierr := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, apierr, "detect err")
+
+	client.Set(client.LastURL(), []byte(""), http.StatusNotFound, fmt.Errorf("offline"))
+
+	_, err := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, err, "err")
+	assert.Equal(t, WRAPPER_INTERNAL_ERROR, err.ErrorCode, "exp err")
+	assert.Equal(t, "500 | GET | offline", err.Error(), "exp err")
+}
+
+func TestTrTranslateErrZeroResult(t *testing.T) {
+	dummyKey := "trnsl.there.is.no.key"
+	text := "no-text"
+
+	lcTO := EN
+
+	client := newVoidClient()
+	tr := NewYandexTranslateWithClient(dummyKey, client)
+	_, apierr := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, apierr, "detect err")
+
+	client.Set(client.LastURL(), []byte(`{
+  "code": 200,
+  "lang": "ru-en",
+  "text": [
+    ""
+  ]
+}
+`), http.StatusOK, nil)
+
+	_, err := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, err, "err")
+	assert.Equal(t, CANNOT_TRANSLATE, err.ErrorCode, "exp err")
+	assert.Equal(t, "422 | Empty result", err.Error(), "exp err")
+}
+
+func TestTrTranslateErrCodeNotOK(t *testing.T) {
+	dummyKey := "trnsl.there.is.no.key"
+	text := "no-text"
+
+	lcTO := EN
+
+	client := newVoidClient()
+	tr := NewYandexTranslateWithClient(dummyKey, client)
+	_, apierr := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, apierr, "detect err")
+
+	client.Set(client.LastURL(), []byte(`{
+  "code": 200,
+  "lang": "ru-en",
+  "text": [
+    ""
+  ]
+}
+`), http.StatusInternalServerError, nil)
+
+	_, err := tr.Translate(text, lcTO, nil)
+	assert.NotNil(t, err, "err")
+	assert.Equal(t, WRAPPER_INTERNAL_ERROR, err.ErrorCode, "exp err")
+	assert.Equal(t, "500 | ", err.Error(), "exp err")
 }

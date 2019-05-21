@@ -95,8 +95,9 @@ func (p *tr) Translate(text string, to LC, opt *TranslateOpt) (string, *apiError
 		return "", newError(dataResp.GenericResponse)
 	}
 
-	if len(dataResp.Text) < 1 {
+	if len(dataResp.Text[0]) < 1 {
 		dataResp.ErrorCode = CANNOT_TRANSLATE
+		dataResp.Description = "Empty result"
 		return "", newError(dataResp.GenericResponse)
 	}
 
