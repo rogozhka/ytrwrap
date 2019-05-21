@@ -1,6 +1,7 @@
 [![GoDoc](https://godoc.org/github.com/rogozhka/ytrwrap?status.svg)](https://godoc.org/github.com/rogozhka/ytrwrap)
 [![Travis](https://travis-ci.org/rogozhka/ytrwrap.svg?branch=master)](https://travis-ci.org/rogozhka/ytrwrap)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rogozhka/ytrwrap)](https://goreportcard.com/report/github.com/rogozhka/ytrwrap)
+[![codecov](https://codecov.io/gh/rogozhka/ytrwrap/branch/master/graph/badge.svg)](https://codecov.io/gh/rogozhka/ytrwrap)
 
 **ytrwrap** is a wrapper for [Yandex.Translate API](https://tech.yandex.com/translate/). Free API key is required to use machine translation service. Supports more than 90 languages and can translate separate words or complete texts. API consists of 3 simple methods: Languages, Translate, Detect.
 
