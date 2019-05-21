@@ -25,13 +25,17 @@ func (p *voidClient) Get(url string) ([]byte, int, error) {
 
 	p.lastURL = url
 
-	if res, is := p.results[url]; !is {
+	res, is := p.results[url]
+	if !is {
 		return nil, http.StatusInternalServerError, fmt.Errorf("result does not exist")
-	} else {
-		return res.bb, res.code, res.err
 	}
+
+	return res.bb, res.code, res.err
 }
 
+//
+// Set allows to store result for future Get calls with that url
+//
 func (p *voidClient) Set(url string, bb []byte, code int, err error) {
 	if nil == p.results {
 		p.results = make(map[string]voidResult)
@@ -44,6 +48,9 @@ func (p *voidClient) Set(url string, bb []byte, code int, err error) {
 	}
 }
 
+//
+// LastURL returns last used url w/ Get() call
+//
 func (p *voidClient) LastURL() string {
 	return p.lastURL
 }

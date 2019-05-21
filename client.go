@@ -17,6 +17,10 @@ type fetcher struct {
 	client *http.Client
 }
 
+//
+// NewFetcher creates required fetcherInterface impl
+// w/ optional http.Client (leave nil for defaults)
+//
 func NewFetcher(client *http.Client) *fetcher {
 	p := &fetcher{
 		client: client,
@@ -30,6 +34,9 @@ func NewFetcher(client *http.Client) *fetcher {
 	return p
 }
 
+//
+// Get makes HTTP GET request
+//
 func (p *fetcher) Get(url string) ([]byte, int, error) {
 
 	var res []byte
