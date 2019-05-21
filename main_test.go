@@ -2,7 +2,6 @@ package ytrwrap
 
 import (
 	"fmt"
-	"net/http"
 	"os"
 )
 
@@ -19,8 +18,6 @@ func requireEnv(name string) string {
 	return v
 }
 
-func createTestClientFromEnv() *tr {
-	return NewYandexTranslateWithClient(getKeyEnv(), &http.Client{
-		Timeout: DefaultClientTimeout,
-	})
+func createRealTestClientFromEnv() *tr {
+	return NewYandexTranslate(getKeyEnv())
 }
