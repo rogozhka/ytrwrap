@@ -51,9 +51,9 @@ func (p *tr) Translate(text string, to LC, opt *TranslateOpt) (string, *apiError
 
 	switch opt.OutputFormat {
 	case PlainText:
-		fallthrough
+		break
 	case HTML:
-		fallthrough
+		break
 	default:
 		opt.OutputFormat = PlainText
 	}
