@@ -57,6 +57,9 @@ func TestTr_DetectErrGET(t *testing.T) {
 	assert.NotNil(t, err, "err")
 	assert.Equal(t, WRAPPER_INTERNAL_ERROR, err.ErrorCode, "exp err")
 	assert.Equal(t, "500 | GET | offline", err.Error(), "exp err")
+
+	assert.Equal(t, WRAPPER_INTERNAL_ERROR, err.Code(), "err")
+	assert.Equal(t, "GET | offline", err.Message(), "err")
 }
 
 func TestURLDetect(t *testing.T) {

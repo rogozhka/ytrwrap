@@ -90,3 +90,11 @@ func apiErrorf(format string, a ...interface{}) *apiError {
 func (p *apiError) Error() string {
 	return fmt.Sprintf("%v | %v", p.ErrorCode, p.Description)
 }
+
+func (p *apiError) Message() string {
+	return p.Description
+}
+
+func (p *apiError) Code() APICode {
+	return p.ErrorCode
+}
